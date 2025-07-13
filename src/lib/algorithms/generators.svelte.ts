@@ -1,5 +1,5 @@
 import type { Cell } from "../types"
-import { maze } from "../maze.svelte"
+import { maze, resetVisited } from "../maze.svelte"
 import { TOP, BOTTOM, LEFT, RIGHT } from "../const";
 
 export const dfs = () => {
@@ -54,5 +54,5 @@ export const dfs = () => {
         }
     }
 
-    console.log("done")
+    resetVisited();
 }
