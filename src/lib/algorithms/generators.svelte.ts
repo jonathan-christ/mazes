@@ -1,6 +1,6 @@
-import type { Cell } from "./types"
-import { maze } from "./maze.svelte"
-import { TOP, BOTTOM, LEFT, RIGHT } from "./const";
+import type { Cell } from "../types"
+import { maze } from "../maze.svelte"
+import { TOP, BOTTOM, LEFT, RIGHT } from "../const";
 
 export const dfs = () => {
     let currentCell = maze.cells[0][0];
