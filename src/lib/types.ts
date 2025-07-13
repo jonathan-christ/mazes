@@ -3,6 +3,7 @@ export type Cell = {
     x: number,
     y: number,
     visited: boolean,
+    path: boolean,
     walls: {
         top: boolean,
         right: boolean,
@@ -11,4 +12,5 @@ export type Cell = {
     }
 };
 export type MazeConfig = { size: MazeSize, cells: Cell[][], finished: boolean }
-export type Algorithm = "dfs" | "kruskals";
+export type GenerationAlgorithm = "dfs" | "kruskals";
+export type SolvingAlgorithm = "bfs";
