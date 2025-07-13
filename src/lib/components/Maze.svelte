@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { maze, initializeMaze, generateMaze } from '$lib/maze.svelte';
-	import Cell from './Cell.svelte';
-	import { onMount } from 'svelte';
+    import Cell from './Cell.svelte';
 	import type { MazeSize } from '$lib/types';
+	import { onMount } from 'svelte';
+	import { maze, initializeMaze, generateMaze } from '$lib/maze.svelte';
 
 	let { size }: { size: MazeSize } = $props();
 
