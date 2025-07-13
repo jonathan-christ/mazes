@@ -1,5 +1,5 @@
 import type { Cell, MazeConfig, Algorithm } from "./types";
-import { dfs } from "./algos.svelte";
+import { dfs } from "./algorithms/generators.svelte";
 
 export const maze = $state<MazeConfig>({
     size: { width: 10, height: 10 },
