@@ -8,8 +8,17 @@
 
 	onMount(() => {
 		initializeMaze(size.width, size.height);
-		generateMaze('dfs');
+		// Ensure cells are initialized before generating maze
+		setTimeout(() => {
+			generateMaze('dfs');
+		}, 0);
 	});
+
+	const getPlace = (x: number, y: number) => {
+		if (x === 0 && y === 0) return "start";
+		if (x === maze.size.width - 1 && y === maze.size.height - 1) return "end";
+		return "mid";
+	};
 </script>
 
 {#if maze.finished}
@@ -17,7 +26,7 @@
 		{#each maze.cells as row}
 			<div class="flex">
 				{#each row as cell}
-					<Cell {cell} />
+					<Cell {cell} place={getPlace(cell.x, cell.y)} />
 				{/each}
 			</div>
 		{/each}
