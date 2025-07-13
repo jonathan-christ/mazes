@@ -1,4 +1,4 @@
-import type { Cell, MazeConfig, Algorithm } from "./types";
+import type { Cell, MazeConfig, SolvingAlgorithm, GenerationAlgorithm } from "./types";
 import { dfs } from "./algorithms/generators.svelte";
 
 export const maze = $state<MazeConfig>({
@@ -13,13 +13,13 @@ export const initializeMaze = (width: number, height: number) => {
     for (let y = 0; y < height; y++) {
         newCells[y] = [];
         for (let x = 0; x < width; x++) {
-            newCells[y][x] = { x, y, visited: false, walls: { top: true, bottom: true, left: true, right: true } }
+            newCells[y][x] = { x, y, visited: false, path: false, walls: { top: true, bottom: true, left: true, right: true } }
         }
     }
     maze.cells = newCells;
 }
 
-export const generateMaze = (algo: Algorithm = "dfs") => {
+export const generateMaze = (algo: GenerationAlgorithm = "dfs") => {
     switch (algo) {
         case "kruskals":
             // to be implemented
