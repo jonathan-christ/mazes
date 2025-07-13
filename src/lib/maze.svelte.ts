@@ -1,5 +1,6 @@
 import type { Cell, MazeConfig, SolvingAlgorithm, GenerationAlgorithm } from "./types";
 import { dfs } from "./algorithms/generators.svelte";
+import { bfs } from "./algorithms/solvers.svelte";
 
 export const maze = $state<MazeConfig>({
     size: { width: 10, height: 10 },
@@ -31,4 +32,24 @@ export const generateMaze = (algo: GenerationAlgorithm = "dfs") => {
     }
 
     maze.finished = true;
+}
+
+export const solveMaze = (algo: SolvingAlgorithm = "bfs") => {
+    const solverAlgos = {
+        bfs: bfs
+    }
+    resetVisited();
+
+    const shortestPath = solverAlgos[algo]();
+    if (shortestPath === null) return;
+    shortestPath.forEach(cell => cell.path = true);
+}
+
+export const resetVisited = () => {
+    for (let y = 0; y < maze.size.height; y++) {
+        for (let x = 0; x < maze.size.width; x++) {
+            maze.cells[y][x].visited = false;
+            maze.cells[y][x].path = false;
+        }
+    }
 }
