@@ -13,7 +13,7 @@
 </script>
 
 {#if maze.finished}
-	<div class="flex flex-col">
+	<div class="flex flex-col border-1 w-fit">
 		{#each maze.cells as row}
 			<div class="flex">
 				{#each row as cell}
