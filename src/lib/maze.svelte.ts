@@ -20,7 +20,7 @@ export const initializeMaze = (width: number, height: number) => {
     maze.cells = newCells;
 }
 
-export const generateMaze = (algo: GenerationAlgorithm = "dfs") => {
+export const generateMaze = async (algo: GenerationAlgorithm = "dfs") => {
     switch (algo) {
         case "kruskals":
             // to be implemented
@@ -34,7 +34,7 @@ export const generateMaze = (algo: GenerationAlgorithm = "dfs") => {
     maze.finished = true;
 }
 
-export const solveMaze = (algo: SolvingAlgorithm = "bfs") => {
+export const solveMaze = async (algo: SolvingAlgorithm = "bfs") => {
     const solverAlgos = {
         bfs: bfs
     }

@@ -2,7 +2,7 @@ import type { Cell } from "../types"
 import { maze, resetVisited } from "../maze.svelte"
 import { TOP, BOTTOM, LEFT, RIGHT } from "../const";
 
-export const dfs = () => {
+export const dfs = async () => {
     let currentCell = maze.cells[0][0];
     let stack: Cell[] = [];
 
@@ -20,7 +20,7 @@ export const dfs = () => {
         const unvisited = directions.filter(dir => {
             const newX = currentCell.x + dir.x;
             const newY = currentCell.y + dir.y;
-            
+
             if (newX < 0 || newX >= maze.size.width || newY < 0 || newY >= maze.size.height) return false;
             return !maze.cells[newY][newX].visited;
         });

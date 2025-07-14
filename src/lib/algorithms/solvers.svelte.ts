@@ -2,7 +2,7 @@ import type { Cell } from "../types"
 import { maze, resetVisited } from "../maze.svelte"
 import { TOP, BOTTOM, LEFT, RIGHT } from "../const";
 
-export const bfs = () : Cell[] | null => {
+export const bfs = async (): Promise<Cell[] | null> => {
     let queue: Cell[] = [];
     let parents: Map<Cell, Cell> = new Map();
     let pathFound = false;
