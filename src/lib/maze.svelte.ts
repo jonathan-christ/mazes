@@ -53,3 +53,8 @@ export const resetVisited = () => {
         }
     }
 }
+
+export const delay = async (ms: number) => {
+    // Make instant if speed = 0 ms
+    if (ms !== 0) return new Promise(res => setTimeout(res, ms));
+}
