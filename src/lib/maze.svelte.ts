@@ -5,7 +5,8 @@ import { bfs } from "./algorithms/solvers.svelte";
 export const maze = $state<MazeConfig>({
     size: { width: 10, height: 10 },
     cells: [],
-    finished: false,
+    initialized: false,
+    generated: false,
     animationSpeedMS: 0,
 });
 
@@ -19,7 +20,7 @@ export const initializeMaze = (width: number, height: number) => {
         }
     }
     maze.cells = newCells;
-    maze.finished = true;
+    maze.initialized = true;
 }
 
 export const generateMaze = async (algo: GenerationAlgorithm = "dfs") => {
@@ -32,13 +33,16 @@ export const generateMaze = async (algo: GenerationAlgorithm = "dfs") => {
             await dfs();
             break;
     }
+
+    maze.generated = true;
 }
 
 export const solveMaze = async (algo: SolvingAlgorithm = "bfs") => {
     const solverAlgos = {
         bfs: bfs
     }
-
+    
+    resetVisited();
     const shortestPath = await solverAlgos[algo]();
     if (shortestPath === null) return;
 
