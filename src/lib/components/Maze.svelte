@@ -8,14 +8,6 @@
 
 	onMount(() => {
 		initializeMaze(size.width, size.height);
-		// Ensure cells are initialized before generating maze
-		setTimeout(() => {
-			generateMaze('dfs');
-		}, 0);
-
-		setTimeout(() => {
-			solveMaze('bfs');
-		}, 0);
 	});
 
 	const getPlace = (x: number, y: number) => {
@@ -23,8 +15,37 @@
 		if (x === maze.size.width - 1 && y === maze.size.height - 1) return 'end';
 		return 'mid';
 	};
+
+	let disableButtons = $state(false);
 </script>
 
+<div>
+	<input
+		type="range"
+		min="0"
+		max="100"
+		value="0"
+		id="animation-speed"
+		oninput={(e) => maze.animationSpeedMS = +(e.target as HTMLInputElement).value}
+	/>
+	<button
+		disabled={disableButtons}
+		onclick={async () => {
+			disableButtons = true;
+			initializeMaze(size.width, size.height);
+			await generateMaze();
+			disableButtons = false;
+		}}>Generate</button
+	>
+	<button
+		disabled={disableButtons}
+		onclick={async () => {
+			disableButtons = true;
+			await solveMaze();
+			disableButtons = false;
+		}}>Solve</button
+	>
+</div>
 {#if maze.finished}
 	<div class="flex w-fit flex-col border-1">
 		{#each maze.cells as row}
