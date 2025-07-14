@@ -1,5 +1,5 @@
 import type { Cell } from "../types"
-import { maze, resetVisited } from "../maze.svelte"
+import { delay, maze } from "../maze.svelte"
 import { TOP, BOTTOM, LEFT, RIGHT } from "../const";
 
 export const bfs = async (): Promise<Cell[] | null> => {
@@ -27,13 +27,13 @@ export const bfs = async (): Promise<Cell[] | null> => {
         }
 
         const neighbors = [TOP, BOTTOM, RIGHT, LEFT];
-        neighbors.forEach((loc) => {
+        for (const loc of neighbors) {
             const currX = loc.x + currentCell.x;
             const currY = loc.y + currentCell.y;
 
-            if (currX < 0 || currY < 0 || currX >= maze.size.width || currY >= maze.size.height) return;
+            if (currX < 0 || currY < 0 || currX >= maze.size.width || currY >= maze.size.height) continue;
             const neighbor = maze.cells[currY][currX];
-            if (neighbor.visited) return;
+            if (neighbor.visited) continue;
 
             // Check if there's no wall between current cell and neighbor
             let canMove = false;
@@ -42,13 +42,13 @@ export const bfs = async (): Promise<Cell[] | null> => {
             else if (loc === RIGHT && !currentCell.walls.right) canMove = true;
             else if (loc === LEFT && !currentCell.walls.left) canMove = true;
 
-            if (!canMove) return;
+            if (!canMove) continue;
 
             neighbor.visited = true;
             parents.set(neighbor, currentCell);
             queue.push(neighbor);
-
-        })
+            await delay(maze.animationSpeedMS)
+        }
     }
 
     if (!pathFound) {
