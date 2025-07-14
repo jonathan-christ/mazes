@@ -26,9 +26,10 @@
 		max="100"
 		value="0"
 		id="animation-speed"
-		oninput={(e) => maze.animationSpeedMS = +(e.target as HTMLInputElement).value}
+		oninput={(e) => (maze.animationSpeedMS = +(e.target as HTMLInputElement).value)}
 	/>
 	<button
+		class="disabled:text-gray-600"
 		disabled={disableButtons}
 		onclick={async () => {
 			disableButtons = true;
@@ -38,7 +39,8 @@
 		}}>Generate</button
 	>
 	<button
-		disabled={disableButtons}
+		class="disabled:text-gray-600"
+		disabled={disableButtons || !maze.generated}
 		onclick={async () => {
 			disableButtons = true;
 			await solveMaze();
@@ -46,7 +48,7 @@
 		}}>Solve</button
 	>
 </div>
-{#if maze.finished}
+{#if maze.initialized}
 	<div class="flex w-fit flex-col border-1">
 		{#each maze.cells as row}
 			<div class="flex">
