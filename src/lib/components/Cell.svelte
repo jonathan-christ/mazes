@@ -12,6 +12,7 @@
 			'bg-green-600': place === 'start',
 			'bg-red-600': place === 'end',
 			'bg-yellow-400': cell.path,
+			'bg-blue-400': cell.visited
 		})
 	);
 </script>
