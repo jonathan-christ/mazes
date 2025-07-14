@@ -18,6 +18,7 @@ export const initializeMaze = (width: number, height: number) => {
         }
     }
     maze.cells = newCells;
+    maze.finished = true;
 }
 
 export const generateMaze = async (algo: GenerationAlgorithm = "dfs") => {
@@ -27,7 +28,7 @@ export const generateMaze = async (algo: GenerationAlgorithm = "dfs") => {
             break;
         default:
             // dfs
-            dfs();
+            await dfs();
             break;
     }
 
@@ -40,7 +41,7 @@ export const solveMaze = async (algo: SolvingAlgorithm = "bfs") => {
     }
     resetVisited();
 
-    const shortestPath = solverAlgos[algo]();
+    const shortestPath = await solverAlgos[algo]();
     if (shortestPath === null) return;
     shortestPath.forEach(cell => cell.path = true);
 }
