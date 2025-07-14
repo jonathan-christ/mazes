@@ -1,5 +1,5 @@
 import type { Cell } from "../types"
-import { maze, resetVisited } from "../maze.svelte"
+import { delay, maze, resetVisited } from "../maze.svelte"
 import { TOP, BOTTOM, LEFT, RIGHT } from "../const";
 
 export const dfs = async () => {
@@ -51,6 +51,7 @@ export const dfs = async () => {
             newCell.visited = true;
             stack.push(currentCell);
             stack.push(newCell);
+            await delay(maze.animationSpeedMS);
         }
     }
 
