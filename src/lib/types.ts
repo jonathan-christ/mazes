@@ -11,6 +11,14 @@ export type Cell = {
         left: boolean
     }
 };
-export type MazeConfig = { size: MazeSize, cells: Cell[][], initialized: boolean, generated: boolean, animationSpeedMS: number }
+export type MazeConfig = {
+    size: MazeSize,
+    cells: Cell[][],
+    initialized: boolean,
+    generated: boolean,
+    animationSpeedMS: number,
+    isMobile: boolean
+}
 export type GenerationAlgorithm = "dfs" | "kruskals";
 export type SolvingAlgorithm = "bfs";
+export type MazeSizeKeys = "small" | "medium" | "large";
