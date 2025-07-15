@@ -4,7 +4,7 @@
 	import { Label } from '$lib/components/ui/label/index';
 	import { Button } from '$lib/components/ui/button/index';
 	import * as Select from '$lib/components/ui/select/index';
-	import type { GenerationAlgorithm, MazeSize, MazeSizeKeys, SolvingAlgorithm } from '$lib/types';
+	import type { GenerationAlgorithm, MazeSizeKeys, SolvingAlgorithm } from '$lib/types';
 	import { MAZE_SIZE } from '$lib/const';
 	import { capitalizeFirstLetter } from '$lib/utils';
 	import clsx from 'clsx';
@@ -19,7 +19,7 @@
 
 	const genAlgoList: { value: GenerationAlgorithm; label: string }[] = [
 		{ value: 'dfs', label: '(DFS) Depth-First Search' },
-		{ value: 'kruskals', label: "Kruskal's Algorithm" }
+		// { value: 'kruskals', label: "Kruskal's Algorithm" }
 	];
 
 	const solveAlgoList: { value: SolvingAlgorithm; label: string }[] = [
