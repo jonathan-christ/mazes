@@ -1,10 +1,6 @@
-import type { MazeSize } from "./types";
+import type { MazeSize, MazeSizeKeys } from "./types";
 
-export const MAZE_SIZE: {
-    small: MazeSize,
-    medium: MazeSize,
-    large: MazeSize
-} = {
+export const MAZE_SIZE: Record<MazeSizeKeys, MazeSize> = {
     small: { width: 10, height: 10 },
     medium: { width: 20, height: 20 },
     large: { width: 60, height: 20 }
