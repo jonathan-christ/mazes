@@ -28,19 +28,16 @@ export const initializeMaze = (width: number, height: number, keepOrientation: b
     }
     maze.cells = newCells;
     maze.initialized = true;
+    maze.generated = false;
 }
 
 export const generateMaze = async (algo: GenerationAlgorithm = "dfs") => {
-    switch (algo) {
-        case "kruskals":
-            // to be implemented
-            break;
-        default:
-            // dfs
-            await dfs();
-            break;
+    const generatorAlgos = {
+        kruskals: () => new Promise(res => setTimeout(res, 0)),
+        dfs: dfs
     }
 
+    await generatorAlgos[algo]();
     maze.generated = true;
 }
 
