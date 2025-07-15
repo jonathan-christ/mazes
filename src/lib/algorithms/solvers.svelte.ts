@@ -3,13 +3,13 @@ import { delay, maze } from "../maze.svelte"
 import { TOP, BOTTOM, LEFT, RIGHT } from "../const";
 
 export const bfs = async (): Promise<Cell[] | null> => {
-    let queue: Cell[] = [];
-    let parents: Map<Cell, Cell> = new Map();
+    const queue: Cell[] = [];
+    const parents: Map<Cell, Cell> = new Map();
     let pathFound = false;
 
     let currentCell: Cell;
-    let startCell = maze.cells[0][0];
-    let endCell = maze.cells[maze.size.height - 1][maze.size.width - 1];
+    const startCell = maze.cells[0][0];
+    const endCell = maze.cells[maze.size.height - 1][maze.size.width - 1];
 
     queue.push(startCell);
     startCell.visited = true;
@@ -56,7 +56,7 @@ export const bfs = async (): Promise<Cell[] | null> => {
         return null;
     }
 
-    let shortestPath: Cell[] = [];
+    const shortestPath: Cell[] = [];
     currentCell = endCell;
 
     //Backtracking

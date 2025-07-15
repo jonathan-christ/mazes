@@ -4,7 +4,7 @@ import { TOP, BOTTOM, LEFT, RIGHT } from "../const";
 
 export const dfs = async () => {
     let currentCell = maze.cells[0][0];
-    let stack: Cell[] = [];
+    const stack: Cell[] = [];
 
     currentCell.visited = true;
     stack.push(currentCell);

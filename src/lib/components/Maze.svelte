@@ -20,9 +20,9 @@
 
 {#if maze.initialized}
 	<div class="flex w-fit flex-col border-1 border-primary">
-		{#each maze.cells as row}
+		{#each maze.cells as row, ridx (ridx)}
 			<div class="flex">
-				{#each row as cell}
+				{#each row as cell, cidx (cidx)}
 					<Cell {cell} place={getPlace(cell.x, cell.y)} />
 				{/each}
 			</div>

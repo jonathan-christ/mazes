@@ -13,13 +13,13 @@ export const maze = $state<MazeConfig>({
 
 export const initializeMaze = (width: number, height: number, keepOrientation: boolean = false) => {
     if (maze.isMobile && !keepOrientation) {
-        let x = width;
+        const x = width;
         width = height;
         height = x;
     }
 
     maze.size = { width, height };
-    let newCells: Cell[][] = [];
+    const newCells: Cell[][] = [];
     for (let y = 0; y < height; y++) {
         newCells[y] = [];
         for (let x = 0; x < width; x++) {

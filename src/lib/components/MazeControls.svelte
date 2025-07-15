@@ -70,7 +70,7 @@
 				>{mazeSizeTriggerValue}</Select.Trigger
 			>
 			<Select.Content>
-				{#each mazeSizeKeys as size}
+				{#each mazeSizeKeys as size, idx (idx)}
 					<Select.Item value={size}>{capitalizeFirstLetter(size)}</Select.Item>
 				{/each}
 			</Select.Content>
@@ -95,7 +95,7 @@
 		<Select.Root type="single" bind:value={genAlgoSelected}>
 			<Select.Trigger class="w-fit bg-white dark:[&_svg]:stroke-white"></Select.Trigger>
 			<Select.Content>
-				{#each genAlgoList as { value, label }, index (value)}
+				{#each genAlgoList as { value, label }, index (index)}
 					<Select.Item {value}>{label}</Select.Item>
 				{/each}
 			</Select.Content>
@@ -119,7 +119,7 @@
 		<Select.Root type="single" bind:value={solveAlgoSelected}>
 			<Select.Trigger class="w-fit bg-white dark:[&_svg]:stroke-white"></Select.Trigger>
 			<Select.Content>
-				{#each solveAlgoList as { value, label }, index (value)}
+				{#each solveAlgoList as { value, label }, index (index)}
 					<Select.Item {value}>{label}</Select.Item>
 				{/each}
 			</Select.Content>
