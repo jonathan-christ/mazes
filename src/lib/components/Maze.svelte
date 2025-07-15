@@ -1,13 +1,13 @@
 <script lang="ts">
 	import Cell from './Cell.svelte';
-	import type { MazeSize } from '$lib/types';
 	import { onMount } from 'svelte';
-	import { maze, initializeMaze, generateMaze, solveMaze } from '$lib/maze.svelte';
+	import { maze, initializeMaze } from '$lib/maze.svelte';
+	import { MAZE_SIZE } from '$lib/const';
 
-	let { size }: { size: MazeSize } = $props();
-
+	const defaultSize = MAZE_SIZE.small;
 	onMount(() => {
-		initializeMaze(size.width, size.height);
+		maze.isMobile = window.screen.width < 768;
+		initializeMaze(defaultSize.width, defaultSize.height);
 	});
 
 	const getPlace = (x: number, y: number) => {
@@ -15,41 +15,11 @@
 		if (x === maze.size.width - 1 && y === maze.size.height - 1) return 'end';
 		return 'mid';
 	};
-
-	let disableButtons = $state(false);
 </script>
 
-<div>
-	<input
-		type="range"
-		min="0"
-		max="100"
-		value="0"
-		id="animation-speed"
-		oninput={(e) => (maze.animationSpeedMS = +(e.target as HTMLInputElement).value)}
-	/>
-	<button
-		class="disabled:text-gray-600"
-		disabled={disableButtons}
-		onclick={async () => {
-			disableButtons = true;
-			initializeMaze(size.width, size.height);
-			await generateMaze();
-			disableButtons = false;
-		}}>Generate</button
-	>
-	<button
-		class="disabled:text-gray-600"
-		disabled={disableButtons || !maze.generated}
-		onclick={async () => {
-			disableButtons = true;
-			await solveMaze();
-			disableButtons = false;
-		}}>Solve</button
-	>
-</div>
+
 {#if maze.initialized}
-	<div class="flex w-fit flex-col border-1">
+	<div class="flex w-fit flex-col border-1 border-primary">
 		{#each maze.cells as row}
 			<div class="flex">
 				{#each row as cell}
