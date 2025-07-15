@@ -8,10 +8,17 @@ export const maze = $state<MazeConfig>({
     initialized: false,
     generated: false,
     animationSpeedMS: 0,
+    isMobile: false,
 });
 
-export const initializeMaze = (width: number, height: number) => {
-    maze.size = { width, height }
+export const initializeMaze = (width: number, height: number, keepOrientation: boolean = false) => {
+    if (maze.isMobile && !keepOrientation) {
+        let x = width;
+        width = height;
+        height = x;
+    }
+
+    maze.size = { width, height };
     let newCells: Cell[][] = [];
     for (let y = 0; y < height; y++) {
         newCells[y] = [];
