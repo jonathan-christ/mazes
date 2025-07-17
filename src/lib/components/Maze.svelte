@@ -29,7 +29,7 @@
 		if (initialRender || wasMobile !== isMobile) {
 			maze.isMobile = isMobile;
 			// Flip dimensions when screen flips from mobile and non-mobile
-			initializeMaze(maze.size.height, maze.size.width);
+			initializeMaze(maze.size.height, maze.size.width, true);
 		}
 		initialRender = false;
 	};
