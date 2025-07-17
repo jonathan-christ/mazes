@@ -124,9 +124,9 @@ export const kruskals = async () => {
         nbCell.walls[nbWall.wallDirection] = false;
 
         currCell.visited = true;
+        await delay(maze.animationSpeedMS);
         nbCell.visited = true;
 
-        await delay(maze.animationSpeedMS);
 
         if (cellSetList.length === 1) break;
     }
