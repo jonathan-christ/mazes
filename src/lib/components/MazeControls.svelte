@@ -1,24 +1,20 @@
 <script lang="ts">
+	import type { GenerationAlgorithm, MazeSizeKeys, SolvingAlgorithm } from '$lib/types';
 	import { maze, initializeMaze, solveMaze, generateMaze } from '$lib/maze.svelte';
 	import { Slider } from '$lib/components/ui/slider/index';
 	import { Label } from '$lib/components/ui/label/index';
 	import { Button } from '$lib/components/ui/button/index';
 	import * as Select from '$lib/components/ui/select/index';
-	import type { GenerationAlgorithm, MazeSizeKeys, SolvingAlgorithm } from '$lib/types';
-	import { MAZE_SIZE } from '$lib/const';
+	import { MAZE_SIZE, ANIMATION_DURATION_MS } from '$lib/const';
 	import { capitalizeFirstLetter } from '$lib/utils';
 	import clsx from 'clsx';
 
-	// Animation
-	const maxDuration = 200;
-	const minDuration = 0;
-
 	let disableButtons = $state(false);
-	let genAlgoSelected = $state<GenerationAlgorithm>('dfs');
+	let genAlgoSelected = $derived<GenerationAlgorithm>('dfs');
 	let solveAlgoSelected = $state<SolvingAlgorithm>('bfs');
 
 	const genAlgoList: { value: GenerationAlgorithm; label: string }[] = [
-		{ value: 'dfs', label: '(DFS) Depth-First Search' },
+		{ value: 'dfs', label: '(DFS) Depth-First Search' }
 		// { value: 'kruskals', label: "Kruskal's Algorithm" }
 	];
 
@@ -87,8 +83,8 @@
 			disabled={disableButtons}
 			onclick={async () => {
 				disableButtons = true;
-				initializeMaze(maze.size.width, maze.size.height, true);
-				await generateMaze();
+				initializeMaze(undefined, undefined, true);
+				await generateMaze(genAlgoSelected);
 				disableButtons = false;
 			}}
 			>Generate
@@ -112,7 +108,7 @@
 			disabled={disableButtons || !maze.generated}
 			onclick={async () => {
 				disableButtons = true;
-				await solveMaze();
+				await solveMaze(solveAlgoSelected);
 				disableButtons = false;
 			}}
 			>Solve
