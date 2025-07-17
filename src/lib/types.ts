@@ -1,16 +1,11 @@
+export type GenerationAlgorithm = "dfs" | "kruskals";
+export type SolvingAlgorithm = "bfs";
+
 export type MazeSize = { width: number, height: number };
-export type Cell = {
-    x: number,
-    y: number,
-    visited: boolean,
-    path: boolean,
-    walls: {
-        top: boolean,
-        right: boolean,
-        bottom: boolean,
-        left: boolean
-    }
-};
+export type MazeSizeKeys = "small" | "medium" | "large";
+export type WallKeys = "top" | "bottom" | "left" | "right";
+export type WallData = { x: number, y: number, wallDirection: WallKeys};
+
 export type MazeConfig = {
     size: MazeSize,
     cells: Cell[][],
@@ -19,6 +14,11 @@ export type MazeConfig = {
     animationSpeedMS: number,
     isMobile: boolean
 }
-export type GenerationAlgorithm = "dfs" | "kruskals";
-export type SolvingAlgorithm = "bfs";
-export type MazeSizeKeys = "small" | "medium" | "large";
+
+export type Cell = {
+    x: number,
+    y: number,
+    visited: boolean,
+    path: boolean,
+    walls: Record<WallKeys, boolean>
+};
