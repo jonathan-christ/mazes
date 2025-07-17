@@ -1,14 +1,15 @@
 import type { Cell, MazeConfig, SolvingAlgorithm, GenerationAlgorithm } from "./types";
 import { dfs } from "./algorithms/generators.svelte";
 import { bfs } from "./algorithms/solvers.svelte";
+import { MAZE_SIZE } from "./const";
 
 export const maze = $state<MazeConfig>({
-    size: { width: 10, height: 10 },
+    size: MAZE_SIZE.small,
     cells: [],
     initialized: false,
     generated: false,
     animationSpeedMS: 0,
-    isMobile: false,
+    isMobile: false
 });
 
 export const initializeMaze = (width: number, height: number, keepOrientation: boolean = false) => {
