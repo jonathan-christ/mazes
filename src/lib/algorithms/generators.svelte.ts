@@ -1,4 +1,4 @@
-import type { Cell } from "../types"
+import type { Cell, WallKeys, WallData } from "../types"
 import { delay, maze, resetVisited } from "../maze.svelte"
 import { TOP, BOTTOM, LEFT, RIGHT } from "../const";
 
@@ -54,6 +54,82 @@ export const dfs = async () => {
             await delay(maze.animationSpeedMS);
         }
     }
+}
 
-    resetVisited();
+export const kruskals = async () => {
+    const cellList: Cell[] = maze.cells.flat();
+    let wallList: WallData[] = cellList.map((cell) => {
+        // create list of directions type-safe
+        const directions: WallKeys[] = Object.keys(cell.walls) as Array<WallKeys>;
+        // for each direction, create an entry, so max 4 entries (walls) per cell
+        return directions.map((direction) => {
+            return { x: cell.x, y: cell.y, wallDirection: direction } as WallData
+        })
+    }).flat();
+    // the array of arrays will be randomized
+    for (let i = wallList.length - 1; i > 0; i--) {
+        const idx = Math.floor(Math.random() * (i + 1));
+        const temp = wallList[i];
+
+        wallList[i] = wallList[idx];
+        wallList[idx] = temp; 
+    }
+
+    let cellSetList: Set<Cell>[] = cellList.map((cell) => {
+        const set: Set<Cell> = new Set();
+        set.add(cell);
+        return set;
+    });
+
+    const coordMap: Record<WallKeys, { x: number, y: number }> = {
+        top: TOP,
+        bottom: BOTTOM,
+        right: RIGHT,
+        left: LEFT
+    }
+    const directionOpposite: Record<WallKeys, WallKeys> = {
+        top: "bottom",
+        bottom: "top",
+        left: "right",
+        right: "left"
+
+    }
+
+    for (const wall of wallList) {
+        console.log(wall)
+        // find connected cell
+        const coord = coordMap[wall.wallDirection];
+        const nbWall: WallData = {
+            x: coord.x + wall.x,
+            y: coord.y + wall.y,
+            wallDirection: directionOpposite[wall.wallDirection]
+        };
+        if (nbWall.y < 0 || nbWall.x < 0 || nbWall.y >= maze.size.height || nbWall.x >= maze.size.width) { console.log("uh oh"); continue };
+        // remove duplicate wall
+        wallList = wallList.filter((el) => el !== nbWall);
+
+        const currCell = maze.cells[wall.y][wall.x];
+        const nbCell = maze.cells[nbWall.y][nbWall.x]
+
+        const currCellSetIdx = cellSetList.findIndex((set) => set.has(currCell));
+        const nbCellSetIdx = cellSetList.findIndex((set) => set.has(nbCell));
+
+        console.log("currCell: ", currCellSetIdx, "x: ", currCell.x, 'y: ', currCell.y, "\n nbCell :", nbCellSetIdx);
+        // dont proceed if they are in the same set
+        if (currCellSetIdx === nbCellSetIdx) continue;
+        // union and remove the neighbor's set if so to prevent duplicates
+        cellSetList[currCellSetIdx] = cellSetList[currCellSetIdx].union(cellSetList[nbCellSetIdx]);
+        cellSetList.splice(nbCellSetIdx, 1);
+
+        // remove visual walls
+        currCell.walls[wall.wallDirection] = false;
+        nbCell.walls[nbWall.wallDirection] = false;
+
+        currCell.visited = true;
+        nbCell.visited = true;
+
+        await delay(maze.animationSpeedMS);
+
+        if (cellSetList.length === 1) break;
+    }
 }
