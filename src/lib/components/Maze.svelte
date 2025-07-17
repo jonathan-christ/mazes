@@ -3,6 +3,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { maze, initializeMaze } from '$lib/maze.svelte';
 
+	let initialRender = $state(true);
 	onMount(() => {
 		checkMobile();
 		if (typeof window !== 'undefined') {
@@ -25,11 +26,12 @@
 	const checkMobile = () => {
 		const wasMobile = maze.isMobile;
 		const isMobile = window.innerWidth < 1280;
-		if (wasMobile !== isMobile) {
+		if (initialRender || wasMobile !== isMobile) {
 			maze.isMobile = isMobile;
 			// Flip dimensions when screen flips from mobile and non-mobile
 			initializeMaze(maze.size.height, maze.size.width);
 		}
+		initialRender = false;
 	};
 </script>
 
