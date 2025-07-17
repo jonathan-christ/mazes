@@ -12,7 +12,11 @@ export const maze = $state<MazeConfig>({
     isMobile: false
 });
 
-export const initializeMaze = (width: number, height: number, keepOrientation: boolean = false) => {
+export const initializeMaze = (
+    width: number = maze.size.width,
+    height: number = maze.size.height,
+    keepOrientation: boolean = false
+) => {
     if (maze.isMobile && !keepOrientation) {
         const x = width;
         width = height;
@@ -46,7 +50,7 @@ export const solveMaze = async (algo: SolvingAlgorithm = "bfs") => {
     const solverAlgos = {
         bfs: bfs
     }
-    
+
     resetVisited();
     const shortestPath = await solverAlgos[algo]();
     if (shortestPath === null) return;
