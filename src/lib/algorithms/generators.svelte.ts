@@ -96,7 +96,6 @@ export const kruskals = async () => {
     }
 
     for (const wall of wallList) {
-        console.log(wall)
         // find connected cell
         const coord = coordMap[wall.wallDirection];
         const nbWall: WallData = {
@@ -104,7 +103,7 @@ export const kruskals = async () => {
             y: coord.y + wall.y,
             wallDirection: directionOpposite[wall.wallDirection]
         };
-        if (nbWall.y < 0 || nbWall.x < 0 || nbWall.y >= maze.size.height || nbWall.x >= maze.size.width) { console.log("uh oh"); continue };
+        if (nbWall.y < 0 || nbWall.x < 0 || nbWall.y >= maze.size.height || nbWall.x >= maze.size.width) continue;
         // remove duplicate wall
         wallList = wallList.filter((el) => el !== nbWall);
 
@@ -114,7 +113,6 @@ export const kruskals = async () => {
         const currCellSetIdx = cellSetList.findIndex((set) => set.has(currCell));
         const nbCellSetIdx = cellSetList.findIndex((set) => set.has(nbCell));
 
-        console.log("currCell: ", currCellSetIdx, "x: ", currCell.x, 'y: ', currCell.y, "\n nbCell :", nbCellSetIdx);
         // dont proceed if they are in the same set
         if (currCellSetIdx === nbCellSetIdx) continue;
         // union and remove the neighbor's set if so to prevent duplicates
