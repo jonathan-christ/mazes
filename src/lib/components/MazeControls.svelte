@@ -35,10 +35,11 @@
 		<Label for="slider-speed">Animation Speed</Label>
 		<Slider
 			type="single"
-			min={minDuration}
-			max={maxDuration}
+			min={ANIMATION_DURATION_MS.min}
+			max={ANIMATION_DURATION_MS.max}
 			bind:value={
-				() => maxDuration - maze.animationSpeedMS, (v) => (maze.animationSpeedMS = maxDuration - v)
+				() => ANIMATION_DURATION_MS.max - maze.animationSpeedMS,
+				(v) => (maze.animationSpeedMS = ANIMATION_DURATION_MS.max - v)
 			}
 			step={1}
 			id="slider-speed"
