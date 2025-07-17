@@ -14,8 +14,8 @@
 	let solveAlgoSelected = $state<SolvingAlgorithm>('bfs');
 
 	const genAlgoList: { value: GenerationAlgorithm; label: string }[] = [
-		{ value: 'dfs', label: '(DFS) Depth-First Search' }
-		// { value: 'kruskals', label: "Kruskal's Algorithm" }
+		{ value: 'dfs', label: '(DFS) Depth-First Search' },
+		{ value: 'kruskals', label: "Kruskal's Algorithm" }
 	];
 
 	const solveAlgoList: { value: SolvingAlgorithm; label: string }[] = [
