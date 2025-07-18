@@ -1,4 +1,4 @@
-export type GenerationAlgorithm = "dfs" | "kruskals";
+export type GenerationAlgorithm = "dfs" | "kruskals" | "prims";
 export type SolvingAlgorithm = "bfs";
 
 export type MazeSize = { width: number, height: number };

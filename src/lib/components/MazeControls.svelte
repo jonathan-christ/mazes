@@ -15,7 +15,8 @@
 
 	const genAlgoList: { value: GenerationAlgorithm; label: string }[] = [
 		{ value: 'dfs', label: '(DFS) Depth-First Search' },
-		{ value: 'kruskals', label: "Kruskal's Algorithm" }
+		{ value: 'kruskals', label: "Kruskal's Algorithm" },
+		{ value: 'prims', label: "Prim's Algorithm" }
 	];
 
 	const solveAlgoList: { value: SolvingAlgorithm; label: string }[] = [

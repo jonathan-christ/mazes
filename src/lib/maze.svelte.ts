@@ -1,5 +1,5 @@
 import type { Cell, MazeConfig, SolvingAlgorithm, GenerationAlgorithm } from "./types";
-import { dfs, kruskals } from "./algorithms/generators.svelte";
+import { dfs, kruskals, prims } from "./algorithms/generators.svelte";
 import { bfs } from "./algorithms/solvers.svelte";
 import { MAZE_SIZE, ANIMATION_DURATION_MS } from "./const";
 
@@ -39,7 +39,8 @@ export const initializeMaze = (
 export const generateMaze = async (algo: GenerationAlgorithm = "dfs") => {
     const generatorAlgos = {
         kruskals: kruskals,
-        dfs: dfs
+        dfs: dfs,
+        prims: prims
     }
 
     await generatorAlgos[algo]();

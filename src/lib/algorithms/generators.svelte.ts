@@ -2,6 +2,20 @@ import type { Cell, WallKeys, WallData } from "../types"
 import { delay, maze, resetVisited } from "../maze.svelte"
 import { TOP, BOTTOM, LEFT, RIGHT } from "../const";
 
+const coordMap: Record<WallKeys, { x: number, y: number }> = {
+    top: TOP,
+    bottom: BOTTOM,
+    right: RIGHT,
+    left: LEFT
+}
+const directionOpposite: Record<WallKeys, WallKeys> = {
+    top: "bottom",
+    bottom: "top",
+    left: "right",
+    right: "left"
+
+}
+
 export const dfs = async () => {
     let currentCell = maze.cells[0][0];
     const stack: Cell[] = [];
@@ -72,7 +86,7 @@ export const kruskals = async () => {
         const temp = wallList[i];
 
         wallList[i] = wallList[idx];
-        wallList[idx] = temp; 
+        wallList[idx] = temp;
     }
 
     let cellSetList: Set<Cell>[] = cellList.map((cell) => {
@@ -80,20 +94,6 @@ export const kruskals = async () => {
         set.add(cell);
         return set;
     });
-
-    const coordMap: Record<WallKeys, { x: number, y: number }> = {
-        top: TOP,
-        bottom: BOTTOM,
-        right: RIGHT,
-        left: LEFT
-    }
-    const directionOpposite: Record<WallKeys, WallKeys> = {
-        top: "bottom",
-        bottom: "top",
-        left: "right",
-        right: "left"
-
-    }
 
     for (const wall of wallList) {
         // find connected cell
@@ -129,5 +129,50 @@ export const kruskals = async () => {
 
 
         if (cellSetList.length === 1) break;
+    }
+}
+
+export const prims = async () => {
+    let currCell: Cell = maze.cells[0][0];
+    let nbCell: Cell;
+    let wallList: WallData[] = [];
+    const directionList: WallKeys[] = Object.keys(currCell.walls) as Array<WallKeys>;
+
+    const getCellWalls = (cell: Cell, directions: WallKeys[]): WallData[] => {
+        return directions.map((direction) => {
+            return { x: cell.x, y: cell.y, wallDirection: direction } as WallData;
+        });
+    }
+
+    wallList = wallList.concat(getCellWalls(currCell, directionList));
+    currCell.visited = true;
+    while (wallList.length) {
+        const randWall = wallList[Math.floor(Math.random() * wallList.length)];
+        const direction = randWall.wallDirection;
+        const coord = coordMap[direction];
+        currCell = maze.cells[randWall.y][randWall.x];
+
+        let unvisitedCell: Cell;
+        let unvisitedDir: WallKeys
+
+        const [nbX, nbY] = [coord.x + randWall.x, coord.y + randWall.y]
+
+        if (!(nbX < 0 || nbX >= maze.size.width || nbY < 0 || nbY >= maze.size.height)) {
+            nbCell = maze.cells[nbY][nbX];
+
+            if ((nbCell.visited && !currCell.visited) || (!nbCell.visited && currCell.visited)) {
+                currCell.walls[direction] = false;
+                nbCell.walls[directionOpposite[direction]] = false;
+
+                unvisitedCell = currCell.visited ? nbCell : currCell;
+                unvisitedDir = currCell.visited ? directionOpposite[direction] : direction;
+
+                unvisitedCell.visited = true;
+                wallList = wallList.concat(getCellWalls(unvisitedCell, directionList.filter((dir) => dir !== unvisitedDir)));
+
+                await delay(maze.animationSpeedMS);
+            }
+        }
+        wallList = wallList.filter((wall) => wall !== randWall);
     }
 }
